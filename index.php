@@ -5,7 +5,7 @@
  * Simple class database for run query, fetch data.
  * This script under GPL v2 License.
  */
-
+require_once 'config.php';
 require_once 'classDatabase.php';
 require_once 'sampleClass.php';
 
