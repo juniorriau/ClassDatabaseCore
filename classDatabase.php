@@ -14,7 +14,7 @@ class classDatabase
     protected $arrData;
     protected function openConnection()
     {
-        $this->mysqli=new mysqli($this->dbhost, $this->dbuser, $this->dbpass, $this->dbname);
+        $this->mysqli=new mysqli(dbhost, dbuser, dbpass, dbname);
         if($this->mysqli->connect_errno)
         {
             echo "Cannot connect to database with error : ".$this->mysqli->connect_error;
