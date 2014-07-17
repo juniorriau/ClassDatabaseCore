@@ -3,13 +3,14 @@ ClassDatabaseCore
 
 Simple Class for interactive with database
 
-How to use this class?
+##How to use this class?
 
 - include file needed
 
-require_once 'config.php';
-require_once 'classDatabase.php';
-require_once 'sampleClass.php';
+<code>require_once 'classDatabase.php';</code>
+
+#### Optional (example)
+<code>require_once 'sampleClass.php';</code>
 
 - create variable as new class;
 $var = new sampleClass();
