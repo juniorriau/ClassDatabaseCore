@@ -26,7 +26,7 @@ class classDatabase
         mysqli_close($this->mysqli);
     }
     
-    protected function execSql($sql)
+    protected function execute($sql)
     {
         /*
          * untuk run sql query insert/update/delete
