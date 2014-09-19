@@ -5,34 +5,36 @@
  * Simple class database for run query, fetch data.
  * This script under GPL v2 License.
  */
-
 class classDatabase
 {
-    public $mysqli;
-    private $temp;
-    private $data;
-    protected $arrData;
-    protected function openConnection()
+    public static $mysqli;
+    
+    public static function connect()
     {
-        $this->mysqli=new mysqli(dbhost, dbuser, dbpass, dbname);
-        if($this->mysqli->connect_errno)
-        {
-            echo "Cannot connect to database with error : ".$this->mysqli->connect_error;
-            exit();
+        if(!isset(self::$mysqli)){
+          
+            try{
+                self::$mysqli = new mysqli(dbhost, dbuser, dbpass, dbname, dbport);
+            }catch(mysqli_sql_exception $e){
+                self::disconnect();
+                echo $e;
+            }
         }
+        return self::$mysqli;
     }
-    protected function closeConnection()
+    public static function disconnect()
     {
-        mysqli_close($this->mysqli);
+        self::$mysqli=null;
     }
     
-    protected function execute($sql)
+    public static function execute($sql)
     {
         /*
          * untuk run sql query insert/update/delete
          */
-        $this->temp=$this->mysqli->query($sql);
-        if($this->temp)
+        $q=self::connect();
+        $temp=$q->query($sql);
+        if($temp)
         {
             return TRUE;
         }
@@ -40,35 +42,43 @@ class classDatabase
         {
             return FALSE;
         }
+        self::disconnect();
     }
-    protected function fetchAll($sql)
+    public static function fetchAll($sql)
     {
         /*
          * untuk run sql query select
          */
-        $this->temp=$this->mysqli->query($sql);
-        $this->data=$this->temp->num_rows;
-        if($this->data===0)
+        $result=array();
+        $q=self::connect();
+        $temp=$q->query($sql);
+        $data=$temp->num_rows;
+        if($data===0)
         {
             return FALSE;
         }
         else
         {   
             /*
-             * return value dengan array in array, untuk multiple record
+             * return value dengan array in array, untuk multiple record as object
              */
-            $this->arrData=$this->temp->fetch_all();
-            return $this->arrData;
+            while ($obj = $temp->fetch_object()) {
+                array_push($result,$obj);
+            }
+
+            return $result;
         }
+        self::disconnect();
     }
-    protected function fetchOne($sql)
+    public static function fetchOne($sql)
     {
         /*
          * untuk run sql query select
          */
-        $this->temp=$this->mysqli->query($sql);
-        $this->data=$this->temp->num_rows;
-        if($this->data===0)
+        $q=self::connect();
+        $temp=$q->query($sql);
+        $data=$temp->num_rows;
+        if($data===0)
         {
             return FALSE;
         }
@@ -77,8 +87,9 @@ class classDatabase
             /*
              * return value array untuk single record
              */
-            $this->data=$this->temp->fetch_assoc();
-            return $this->data;
+            $data=$temp->fetch_object();
+            return $data;
         }
+        self::disconnect();
     }
 }
