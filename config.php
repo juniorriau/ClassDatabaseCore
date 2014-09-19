@@ -6,7 +6,8 @@
  * This script under GPL v2 License.
  */
 
-define("dbhost", "");
-define("dbuser", "");
-define("dbpass", "");
-define("dbname", "");
+define("dbhost", "localhost");
+define("dbuser", "classdb");
+define("dbpass", "classdb");
+define("dbname", "classdb");
+define("dbport", "3306");

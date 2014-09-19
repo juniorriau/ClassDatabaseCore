@@ -21,8 +21,4 @@ foreach ($datas as $d)
     echo " Value : ".$d->value;
     echo "<br>";
 }
-/*while($data=  mysqli_fetch_object($datas))
-{
-    echo $data->id. " --> ".$data->value;
-    echo "<br>";
-}*/
+
